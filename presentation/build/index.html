@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Prez</title>
+
+    <meta name="description" content="-- DESCRIPTION HERE --">
+    <meta name="author" content="jousse">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/solarized.css" id="theme">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="css/highlight/styles/zenburn.css" id="highlight-theme">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <link rel="stylesheet" href="css/custom.css">
+
+  </head>
+
+  <body>
+
+    <div class="reveal">
+      <div class="slides"><section id="title" class="center slide">
+<h1>Architecture Web</h1><p><small><a href="mailto:vincent@jousse.org">vincent@jousse.org</a> / <a href="http://twitter.com/vjousse">@vjousse</a></small></p>
+</section>
+<section>
+<section id="introduction-pourquoi" class="center slide">
+<h1>Pourquoi ?</h1>
+</section>
+<section id="introduction-partout" class="slide">
+<h2>Des technologies utilisées partout</h2><ul>
+    <li class="fragment">Internet / World Wide Web</li>
+    <li class="fragment">Smartphones</li>
+    <li class="fragment">Applications Desktop</li>
+    <li class="fragment">Bornes tactiles</li>
+    <li class="fragment">Écrans publicitaires</li>
+    <li class="fragment">Sous-titrage vidéo</li>
+    <li class="fragment">Cette présentation :-)</li>
+    <li class="fragment">...</li>
+</ul>
+</section>
+<section id="introduction-complique" class="center slide">
+<h2>Le Web : de <em>vrais</em> métiers</h2><p>Bien plus compliqué que simplement afficher une page web</p>
+</section>
+<section id="introduction-metiers" class="center slide">
+<ul>
+<li>BDD</li>
+<li>Réseau</li>
+<li>Système</li>
+<li>Programmation</li>
+<li>Designer d&#39;interface</li>
+<li>Architecte</li>
+<li>Big data</li>
+<li>…</li>
+</ul>
+</section>
+<section id="introduction-particularites" class="slide">
+<h2>Des problématiques uniques</h2><ul>
+<li>Gérer de 2 utilisateurs à 1M</li>
+<li>Doit marcher sur mobile, tablette, ordinateur (Linux / OS X / Windows)</li>
+<li>Doit être accessible aux personnes handicapées</li>
+<li>Peut se retrouver entre les mains de tout le monde</li>
+</ul>
+</section>
+<section id="introduction-demande" class="center slide">
+<h2>Des compétences très demandées</h2><p>Sur les 25 emplois les plus demandés et les mieux rémunérés en 2015, la moitié demande des compétences en programmation.</p>
+<p><small><em>Source : <a href="https://www.glassdoor.com/blog/highest-paying-jobs-demand/">https://www.glassdoor.com/blog/highest-paying-jobs-demand/</a></em></small></p>
+</section>
+<section id="introduction-langages" class="center slide">
+<p>Les 8 langages les <strong>plus demandés en 2015</strong> :</p>
+<ol>
+<li>SQL</li>
+<li>Java</li>
+<li>Javascript</li>
+<li>C#</li>
+<li>Python</li>
+<li>C++</li>
+<li>Ruby on Rails</li>
+<li>iOS/Swift</li>
+</ol>
+<p><small><em>Source : <a href="http://www.codingdojo.com/blog/8-most-in-demand-programming-languages-of-2015/">http://www.codingdojo.com/blog/8-most-in-demand-programming-languages-of-2015/</a></small></em></p>
+</section>
+</section>
+<section>
+<section id="pourquoi-moi-pourquoi-moi" class="center slide">
+<h1>Pourquoi moi ?</h1>
+</section>
+<section id="pourquoi-moi-pourquoi" class="center slide">
+<h1>Pourquoi moi ?</h1>
+</section>
+<section id="pourquoi-moi-34-ans" class="center slide">
+<p>Internet tel que vous le connaissez (je clique sur un lien) a été rendu publique en <strong>1991</strong> par <em>Tim Berners-Lee</em> au CERN.</p>
+</section>
+<section id="pourquoi-moi-03" class="center slide">
+<p>Et comme j&#39;ai 34 ans…</p>
+<p class="fragment">Ça veut dire que j&#39;étais né <strong>moi</strong> :-)</p>
+<p class="fragment">Premier site en 1999/2000</p>
+</section>
+<section id="pourquoi-moi-screenshot" class="slide" data-background="images/bible_da.png">
+
+</section>
+<section id="pourquoi-moi-depuis" class="center slide">
+<h2>Depuis ça…</h2><ul>
+    <li class="fragment">SSII (ESN) Nozicaa</li>
+    <li class="fragment">Directeur Technique KnpLabs</li>
+    <li class="fragment">Startup Jirafe</li>
+    <li class="fragment">Voxolab / Voxygen</li>
+</ul>
+</section>
+</section>
+<section>
+<section id="demystification-demystification" class="center slide">
+<h1>Démystification</h1>
+</section>
+<section id="demystification-essayons" class="center slide">
+<p>Essayons de comprendre ce qui se passe derrière tout ça.</p>
+<p>En espérant ne pas vous embrouiller plus :-)</p>
+<p>Un cas concrêt : votre <strong>recherche Google</strong></p>
+</section>
+<section id="demystification-screen-google-voxo" class="slide" data-background="images/google_search_voxo.png">
+
+</section>
+<section id="demystification-navigateur" class="slide">
+<p>Pour faire ça, vous devez ouvrir un navigateur internet.</p>
+<p>Vous avez plusieurs choix :</p>
+<ul>
+<li>Internet Explorer (IE)</li>
+<li>Firefox (FF)</li>
+<li>Google Chrome</li>
+<li>Safari</li>
+</ul>
+</section>
+<section id="demystification-navigateur2" class="slide">
+<h2>Mais qu&#39;est-ce qu&#39;un navigateur internet&nbsp;?</h2><p>C&#39;est principalement deux choses :</p>
+<p class="fragment">Un <strong>client réseau</strong></p>
+<p class="fragment">Un <strong>moteur de rendu</strong></p>
+</section>
+<section id="demystification-client-reseau" class="slide">
+<h2>Client Réseau</h2><p>Protocole HTTP</p>
+<p>Client : sait parler le HTTP</p>
+<p>Il envoie des requêtes, il sait en recevoir</p>
+</section>
+<section id="demystification-moteur-de-rendu" class="slide">
+<h2>Moteur de rendu</h2><p>Il doit savoir afficher graphiquement/interpréter ce qu&#39;il reçoit en HTTP</p>
+<p>=&gt; HTML/CSS/Javascript</p>
+</section>
+<section id="demystification-et-ensuite" class="center slide">
+<p>Ok pour le navigateur, nous y reviendrons plus tard.</p>
+<p>Qu&#39;est-ce qui se passe une fois qu&#39;on a fait une recherche ?</p>
+</section>
+<section id="demystification-screen2" class="slide" data-background="images/google_search_voxo.png">
+
+</section>
+<section id="demystification-dns" class="center slide">
+<p>On fait appel aux DNS</p>
+</section>
+<section id="demystification-cluster" class="slide" data-background="images/cluster.jpg">
+
+</section>
+<section id="demystification-3u" class="slide" data-background="images/3U.jpg">
+
+</section>
+<section id="demystification-serveur" class="center slide">
+<h2>Machines généralement sous Linux</h2><p>=&gt; 90% des machines sur le cloud</p>
+<p><small><em>Source: <a href="http://www.journaldunet.com/solutions/expert/51207/l-ecrasante-domination-de-linux-dans-le-cloud---vers-90--de-part-de-marche.shtml">http://www.journaldunet.com/solutions/expert/51207/l-ecrasante-domination-de-linux-dans-le-cloud---vers-90--de-part-de-marche.shtml</a></em></small></p>
+</section>
+<section id="demystification-languages" class="center slide">
+<p><img src="images/languages_server_side_crop.png" alt=""></p>
+</section>
+</section>
+<section>
+<section id="client-http-01" class="center slide">
+<h1>Un client http</h1>
+</section>
+<section id="client-http-http" class="center slide">
+<h2>HTTP</h2><p><strong>HTTP</strong> : HyperText Transfer Protocol</p>
+<p><strong>HTTPS</strong> : HyperText Transfer Protocol Secured (SSL/TLS)</p>
+<p>Couche <strong>Application</strong>, <strong>TCP</strong> comme couche transport, protocole texte</p>
+<p>HTTP: port <strong>80</strong>, HTTPS: port <strong>443</strong></p>
+</section>
+<section id="client-http-simple" class="slide">
+<h2>Protocole très simple</h2><p>1/ On envoie une requête texte (HTTP)</p>
+<p>2/ On attend la réponse</p>
+<p>=&gt; Testons avec un petit telnet</p>
+<pre><code>$ telnet perdu.<span class="hljs-keyword">com</span> <span class="hljs-number">80</span>
+Trying <span class="hljs-number">208.97</span>.<span class="hljs-number">177.124</span>...
+Connected <span class="hljs-keyword">to</span> perdu.<span class="hljs-keyword">com</span>.
+Escape character <span class="hljs-keyword">is</span> <span class="hljs-string">'^]'</span>.
+GET / HTTP/<span class="hljs-number">1.1</span>
+hos<span class="hljs-variable">t:</span> perdu.<span class="hljs-keyword">com</span>
+</code></pre>
+</section>
+<section id="client-http-requete" class="slide">
+<h2>La requête en détails</h2><pre><code><span class="hljs-request">GET <span class="hljs-string">/</span> HTTP/1.1</span>
+<span class="hljs-attribute">User-Agent</span>: <span class="hljs-string">curl/7.35.0</span>
+<span class="hljs-attribute">Host</span>: <span class="hljs-string">perdu.com</span>
+<span class="hljs-attribute">Accept</span>: <span class="hljs-string">*/*</span>
+</code></pre><p>La première ligne est la plus importante</p>
+<ul>
+<li>La méthode HTTP</li>
+<li>L&#39;URL</li>
+<li>La version du protocole</li>
+</ul>
+</section>
+<section id="client-http-methodes" class="slide">
+<h2>Les méthodes HTTP</h2><ul>
+<li><strong>GET</strong></li>
+<li>HEAD</li>
+<li><strong>POST</strong></li>
+<li>OPTIONS</li>
+<li>CONNECT</li>
+<li>TRACE</li>
+<li><strong>PUT</strong></li>
+<li>PATCH</li>
+<li><strong>DELETE</strong></li>
+</ul>
+</section>
+<section id="client-http-headers" class="slide">
+<h2>Les headers</h2><p>Contiennent le reste des informations de la requête</p>
+<pre><code><span class="hljs-request">GET <span class="hljs-string">/</span> HTTP/1.1</span>
+<span class="hljs-attribute">Host</span>: <span class="hljs-string">xkcd.com</span>
+<span class="hljs-attribute">Accept</span>: <span class="hljs-string">text/html</span>
+<span class="hljs-attribute">User-Agent</span>: <span class="hljs-string">Mozilla/5.0 (Macintosh)</span>
+</code></pre>
+</section>
+<section id="client-http-response" class="slide">
+<h2>La réponse</h2><pre><code><span class="hljs-status">HTTP/1.1 <span class="hljs-number">200</span> OK</span>
+<span class="hljs-attribute">Date</span>: <span class="hljs-string">Sat, 02 Apr 2011 21:05:05 GMT</span>
+<span class="hljs-attribute">Server</span>: <span class="hljs-string">lighttpd/1.4.19</span>
+<span class="hljs-attribute">Content-Type</span>: <span class="hljs-string">text/html</span>
+
+<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">html</span>&gt;</span>
+  <span class="hljs-comment">&lt;!-- ... HTML for the xkcd comic --&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span></span>
+</code></pre><p>La première ligne est très importante : elle contient le « status code HTTP »</p>
+<ul>
+<li>200 : ok</li>
+<li>404 : non trouvé</li>
+<li>500 : erreur serveur</li>
+<li>...</li>
+</ul>
+<p><small><em>Liste complète : <a href="https://fr.wikipedia.org/wiki/Liste_des_codes_HTTP">https://fr.wikipedia.org/wiki/Liste_des_codes_HTTP</a></em></small></p>
+</section>
+<section id="client-http-response-header" class="slide">
+<h2>Headers de la réponse</h2><p>La réponse contient aussi des headers</p>
+<ul>
+<li>Content-type</li>
+<li>Server</li>
+<li>Date</li>
+</ul>
+</section>
+</section>
+<section>
+<section id="demarrer-un-projet-01" class="center slide">
+<h1>Démarrer un projet</h1>
+</section>
+<section id="demarrer-un-projet-choisir-sa-techno" class="center slide">
+<h2>Choisir ses briques logicielles</h2>
+</section>
+<section id="demarrer-un-projet-back" class="slide">
+<h2>Back</h2><p>Un langage de programmation</p>
+<p>Une base de données</p>
+<div class="fragment">
+    <p>… mais pas que</p>
+    <p>Il faut éviter de réinventer la roue</p>
+</div>
+
+<p class="fragment">
+    Les <strong>Frameworks</strong> sont là pour ça.
+</p>
+</section>
+<section id="demarrer-un-projet-back2" class="slide">
+<h2>Frameworks</h2><ul>
+<li>Sécurité</li>
+<li>Tests</li>
+<li>Employabilité</li>
+<li>Réutilisation</li>
+<li>Internationalisation</li>
+<li>…</li>
+</ul>
+</section>
+<section id="demarrer-un-projet-back3" class="slide">
+<h2>Un langage, X Frameworks</h2><div class="fragment">
+<h3>PHP</h3>
+
+Symfony2, Silex, Laravel, CakePHP, CodeIgniter, …
+</div>
+
+<div class="fragment">
+<h3>Ruby</h3>
+
+Ruby On Rails, Sinatra, Lotus, Padrino, …
+</div>
+
+<div class="fragment">
+<h3>Python</h3>
+
+Django, Flask, Pyramid, TurboGears, …
+</div>
+</section>
+<section id="demarrer-un-projet-a-vous-de-choisir" class="slide">
+<h2>A vous de choisir</h2><ol>
+<li>En fonction de vos préférences</li>
+<li>En fonction de ce que peut faire le langage</li>
+<li>En fonction de ce que peut faire le framework</li>
+</ol>
+</section>
+<section id="demarrer-un-projet-choisi-pour-vous" class="slide">
+<h2>Pour cette fois, j&#39;ai choisi pour vous</h2><ol>
+<li>Python 3.5</li>
+<li>Django 1.9.1</li>
+</ol>
+<p><strong>Quelques raisons :</strong></p>
+<ul>
+<li>Langage moderne, adapté et réutilisable</li>
+<li>Bonne documentation / écosystème</li>
+<li>Facilité d&#39;apprentissage</li>
+<li>Bonnes pratiques</li>
+</ul>
+</section>
+<section id="demarrer-un-projet-front" class="slide">
+<h2>Front</h2><p>Le principe est le même : ne pas réinventer la roue</p>
+<ol>
+<li>Pas le choix des langages : HTML/CSS/Javascript</li>
+<li>Le choix des frameworks/librairies</li>
+</ol>
+</section>
+<section id="demarrer-un-projet-css" class="slide">
+<h2>Frameworks CSS Front</h2><p>Faciliter :</p>
+<ul>
+<li>Compatibilité multi-navigateur (crossbrowser)</li>
+<li>Affichage multi-écran</li>
+<li>Placement des éléments</li>
+</ul>
+</section>
+<section id="demarrer-un-projet-css-choix" class="slide">
+<h2>Mon choix</h2><p><strong>Twitter Bootstrap 3</strong></p>
+<ul>
+<li>Très (très) répandu</li>
+<li>Système de grille</li>
+<li>Bien documenté</li>
+</ul>
+</section>
+<section id="demarrer-un-projet-javascript" class="slide">
+<h2>Frameworks/Librairies Javascript Front</h2><p>Faciliter :</p>
+<ul>
+<li>Javascript (ou pas)</li>
+<li>Compatibilité multi-navigateur (crossbrowser)</li>
+<li>La ré-utilisation de code/patterns communs</li>
+</ul>
+</section>
+<section id="demarrer-un-projet-javascript" class="slide">
+<h2>Mon choix</h2><p><strong>jQuery</strong></p>
+<p>(plutôt par dépit, en fonction du temps que nous avons)</p>
+<p>Sinon : AngularJS, React, Mithril.js</p>
+</section>
+</section>
+<section>
+<section id="bootstrap-twitter-bootstrap" class="center slide">
+<h1>Twitter Bootstrap 3</h1><p><a href="http://getbootstrap.com/">http://getbootstrap.com/</a></p>
+</section>
+<section id="bootstrap-la-grille" class="center slide">
+<h2>La base de twitter bootstrap : la grille</h2><p>L&#39;écran est découpé en 12 colonnes &quot;virtuelles&quot;</p>
+<p>… et en autant de lignes que vous le souhaitez</p>
+</section>
+<section id="bootstrap-la-grille2" class="center slide">
+<p><img src="images/lg_grid.jpg" alt=""></p>
+<p><small>Source : <a href="http://bootstrap-sass.happyfuncorp.com/bootstrap-sass/layout/README.html">http://bootstrap-sass.happyfuncorp.com/bootstrap-sass/layout/README.html</a></small></p>
+</section>
+<section id="bootstrap-la-grille-options" class="center slide">
+<p><img src="images/grid_options.png" alt=""></p>
+</section>
+<section id="bootstrap-exemples" class="center slide">
+<h2>Exemple Desktop</h2><p><img src="images/exemple_md.png" alt=""></p>
+</section>
+<section id="bootstrap-exemples2" class="slide">
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"row"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"col-md-1"</span>&gt;</span>.col-md-1<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"col-md-1"</span>&gt;</span>.col-md-1<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"col-md-1"</span>&gt;</span>.col-md-1<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"col-md-1"</span>&gt;</span>.col-md-1<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"col-md-1"</span>&gt;</span>.col-md-1<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"col-md-1"</span>&gt;</span>.col-md-1<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"col-md-1"</span>&gt;</span>.col-md-1<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"col-md-1"</span>&gt;</span>.col-md-1<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"col-md-1"</span>&gt;</span>.col-md-1<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"col-md-1"</span>&gt;</span>.col-md-1<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"col-md-1"</span>&gt;</span>.col-md-1<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"col-md-1"</span>&gt;</span>.col-md-1<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"row"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"col-md-8"</span>&gt;</span>.col-md-8<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"col-md-4"</span>&gt;</span>.col-md-4<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"row"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"col-md-4"</span>&gt;</span>.col-md-4<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"col-md-4"</span>&gt;</span>.col-md-4<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"col-md-4"</span>&gt;</span>.col-md-4<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"row"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"col-md-6"</span>&gt;</span>.col-md-6<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"col-md-6"</span>&gt;</span>.col-md-6<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+</code></pre>
+</section>
+<section id="bootstrap-exemples3" class="center slide">
+<h2>Exemple Desktop + Mobile</h2><p><img src="images/exemple_mobile_desktop_grid.png" alt=""></p>
+</section>
+<section id="bootstrap-exemples4" class="slide">
+<pre><code class="lang-html"><span class="hljs-comment">&lt;!-- Stack the columns on mobile by making one full-width and the other half-width --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"row"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"col-xs-12 col-md-8"</span>&gt;</span>.col-xs-12 .col-md-8<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"col-xs-6 col-md-4"</span>&gt;</span>.col-xs-6 .col-md-4<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"row"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"col-xs-6 col-md-4"</span>&gt;</span>.col-xs-6 .col-md-4<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"col-xs-6 col-md-4"</span>&gt;</span>.col-xs-6 .col-md-4<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"col-xs-6 col-md-4"</span>&gt;</span>.col-xs-6 .col-md-4<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- Columns are always 50% wide, on mobile and desktop --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"row"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"col-xs-6"</span>&gt;</span>.col-xs-6<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"col-xs-6"</span>&gt;</span>.col-xs-6<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+</code></pre>
+</section>
+<section id="bootstrap-exemples5" class="center slide">
+<h2>Exemple Desktop + Mobile + Tablette</h2><p><img src="images/exemple_mobile_desktop_tablet_grid.png" alt=""></p>
+</section>
+<section id="bootstrap-exemples6" class="slide">
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"row"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"col-xs-12 col-sm-6 col-md-8"</span>&gt;</span>.col-xs-12 .col-sm-6 .col-md-8<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"col-xs-6 col-md-4"</span>&gt;</span>.col-xs-6 .col-md-4<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"row"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"col-xs-6 col-sm-4"</span>&gt;</span>.col-xs-6 .col-sm-4<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"col-xs-6 col-sm-4"</span>&gt;</span>.col-xs-6 .col-sm-4<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+  <span class="hljs-comment">&lt;!-- Optional: clear the XS cols if their content doesn't match in height --&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"clearfix visible-xs-block"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"col-xs-6 col-sm-4"</span>&gt;</span>.col-xs-6 .col-sm-4<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+</code></pre>
+</section>
+<section id="bootstrap-plus-infos" class="slide">
+<h2>Quelques infos en plus</h2><ul>
+<li>Les lignes doivent être placées dans un <strong>.container</strong> (taille fixe) ou <strong>.container-fluid</strong> (taille variable)</li>
+<li>Il est possible de décaler des colonnes avec par exemple <strong>.col-md-offset-X</strong></li>
+<li>Les lignes peuvent s&#39;imbriquer</li>
+</ul>
+<p><a href="http://getbootstrap.com/css/#grid">http://getbootstrap.com/css/#grid</a></p>
+</section>
+<section id="bootstrap-typo" class="slide">
+<h2>Typographie</h2><p><img src="images/bs3_typo.png" alt=""></p>
+</section>
+<section id="bootstrap-tables" class="slide">
+<h2>Tables</h2><p><img src="images/bs3_tables.png" alt=""></p>
+</section>
+<section id="bootstrap-formulaires" class="slide">
+<h2>Formulaires</h2><p><img src="images/bs3_forms.png" alt=""></p>
+</section>
+<section id="bootstrap-buttons" class="slide">
+<h2>Boutons</h2><p><img src="images/bs3_buttons.png" alt=""></p>
+</section>
+<section id="bootstrap-images" class="slide">
+<h2>Images</h2><p><img src="images/bs3_images.png" alt=""></p>
+</section>
+<section id="bootstrap-other" class="slide">
+<h2>Et encore plein d&#39;autres choses</h2><p><img src="images/bs3_other.png" alt=""></p>
+</section>
+<section id="bootstrap-reference" class="center slide">
+<p><a href="http://getbootstrap.com/css/">http://getbootstrap.com/css/</a></p>
+<p><a href="http://getbootstrap.com/components/">http://getbootstrap.com/components/</a></p>
+<p><a href="http://getbootstrap.com/javascript/">http://getbootstrap.com/javascript/</a></p>
+<p><a href="http://getbootstrap.com/getting-started/#examples">http://getbootstrap.com/getting-started/#examples</a></p>
+</section>
+<section id="bootstrap-themes" class="slide">
+<h2>Thèmes Bootstrap</h2><p><strong>Front</strong></p>
+<ul>
+<li><a href="https://bootswatch.com/">https://bootswatch.com/</a></li>
+<li><a href="http://startbootstrap.com/">http://startbootstrap.com/</a></li>
+<li><a href="http://www.bootstrapzero.com/">http://www.bootstrapzero.com/</a></li>
+</ul>
+<p><strong>Back</strong></p>
+<ul>
+<li><a href="https://almsaeedstudio.com/">https://almsaeedstudio.com/</a></li>
+<li><a href="http://ma.onokumus.com/">http://ma.onokumus.com/</a></li>
+</ul>
+<p><strong>Payant</strong></p>
+<ul>
+<li><a href="http://themeforest.com">http://themeforest.com</a></li>
+</ul>
+</section>
+</section>
+<section>
+<section id="django-django-title" class="center slide">
+<h1>Django</h1><h3>The web framework for perfectionists with deadlines.</h3>
+</section>
+<section id="django-historique" class="center slide">
+<ul>
+<li>Publié en 2005</li>
+<li>15 versions depuis</li>
+<li>Énormément de fonctionnalités</li>
+<li>Très grosse communauté</li>
+<li>De gros utilisateurs : <strong>Pinterest</strong>, <strong>Instagram</strong>, <strong>Mozilla</strong></li>
+</ul>
+</section>
+<section id="django-coeur-framework" class="center slide">
+<ul>
+<li>Serveur web de développement</li>
+<li>Gestion des formulaires</li>
+<li>Système de templates pour gérer l&#39;affichage</li>
+<li>Système de cache</li>
+<li>Internationalisation</li>
+<li>Sérialization (JSON, XML, …)</li>
+<li>Tests</li>
+<li>Sécurité</li>
+<li>…</li>
+</ul>
+</section>
+<section id="django-mais-aussi" class="center slide">
+<h2>Mais aussi</h2><ul>
+<li>Système d&#39;authentification extensible</li>
+<li>Interface d&#39;administration auto-générée</li>
+<li>Génération de RSS/Atom</li>
+<li>Multi-site</li>
+<li>Génération de Google Sitemaps</li>
+<li>…</li>
+</ul>
+</section>
+<section id="django-mvc" class="slide">
+<h2>Le modèle MVC</h2><p><img src="images/mvc.png" alt=""></p>
+<p><small>Source : <a href="https://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-django/le-fonctionnement-de-django">https://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-django/le-fonctionnement-de-django</a> </small></p>
+</section>
+<section id="django-mvt" class="slide">
+<h2>Le MVT de django</h2><p><img src="images/mvt.png" alt=""></p>
+<p><small>Source : <a href="https://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-django/le-fonctionnement-de-django">https://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-django/le-fonctionnement-de-django</a> </small></p>
+</section>
+<section id="django-lemodele" class="slide">
+<h2>Le modèle</h2><p>Django utilise un <strong>ORM</strong> : Object Relation Mapper</p>
+<p>Fait la liaison entre votre code et la base de données</p>
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> django.db <span class="hljs-keyword">import</span> models
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Question</span><span class="hljs-params">(models.Model)</span>:</span>
+    question_text = models.CharField(max_length=<span class="hljs-number">200</span>)
+    pub_date = models.DateTimeField(<span class="hljs-string">'date published'</span>)
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Choice</span><span class="hljs-params">(models.Model)</span>:</span>
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    choice_text = models.CharField(max_length=<span class="hljs-number">200</span>)
+    votes = models.IntegerField(default=<span class="hljs-number">0</span>)
+</code></pre>
+</section>
+<section id="django-lemodele2" class="center slide">
+<ul>
+<li>Auto-génération du SQL</li>
+<li>Entièrement indépendant de la BDD</li>
+<li>Gère les migrations</li>
+</ul>
+<p>Et en plus, compatible avec la génération automatique de l&#39;admin.</p>
+<p><strong>Bingo</strong></p>
+</section>
+<section id="django-lemodele3" class="center slide">
+<pre><code class="lang-python"><span class="hljs-prompt">&gt;&gt;&gt; </span><span class="hljs-keyword">from</span> polls.models <span class="hljs-keyword">import</span> Question, Choice   <span class="hljs-comment"># Import the model classes we just wrote.</span>
+
+<span class="hljs-comment"># No questions are in the system yet.</span>
+<span class="hljs-prompt">&gt;&gt;&gt; </span>Question.objects.all()
+[]
+
+<span class="hljs-comment"># Create a new Question.</span>
+<span class="hljs-comment"># Support for time zones is enabled in the default settings file, so</span>
+<span class="hljs-comment"># Django expects a datetime with tzinfo for pub_date. Use timezone.now()</span>
+<span class="hljs-comment"># instead of datetime.datetime.now() and it will do the right thing.</span>
+<span class="hljs-prompt">&gt;&gt;&gt; </span><span class="hljs-keyword">from</span> django.utils <span class="hljs-keyword">import</span> timezone
+<span class="hljs-prompt">&gt;&gt;&gt; </span>q = Question(question_text=<span class="hljs-string">"What's new?"</span>, pub_date=timezone.now())
+
+<span class="hljs-comment"># Save the object into the database. You have to call save() explicitly.</span>
+<span class="hljs-prompt">&gt;&gt;&gt; </span>q.save()
+
+<span class="hljs-comment"># objects.all() displays all the questions in the database.</span>
+<span class="hljs-prompt">&gt;&gt;&gt; </span>Question.objects.all()
+[&lt;Question: Question object&gt;]
+</code></pre>
+</section>
+<section id="django-django-admin" class="slide">
+<h2>Admin django</h2><p><img src="images/django_admin.png" alt=""></p>
+</section>
+</section></div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+    // Full list of configuration options available at:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+      controls: true,
+      progress: true,
+      history: true,
+      center: true,
+
+      transition: Reveal.getQueryHash().transition || 'slide', // none/fade/slide/convex/concave/zoom
+
+      // Optional reveal.js plugins
+      dependencies: [
+        //{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+        //{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+        //{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+        { src: 'plugin/zoom-js/zoom.js', async: true },
+        { src: 'plugin/notes/notes.js', async: true }
+      ]
+    });
+    </script>
+
+    <script src="js/dynamic-theme.js"></script><script src="js/custom.js"></script>
+
+  </body>
+</html>
