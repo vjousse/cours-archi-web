@@ -512,7 +512,7 @@ Django, Flask, Pyramid, TurboGears, …
 </section>
 <section>
 <section id="django-django-title" class="center slide">
-<h1>Django</h1><h3>The web framework for perfectionists with deadlines.</h3>
+<h1>Django</h1><h3>Introduction</h3>
 </section>
 <section id="django-historique" class="center slide">
 <ul>
@@ -602,6 +602,179 @@ Django, Flask, Pyramid, TurboGears, …
 </section>
 <section id="django-django-admin" class="slide">
 <h2>Admin django</h2><p><img src="images/django_admin.png" alt=""></p>
+</section>
+</section>
+<section>
+<section id="django-models-django-models" class="center slide">
+<h1>Django</h1><h3>Les modèles</h3><p><a href="https://docs.djangoproject.com/fr/1.9/topics/db/models/">https://docs.djangoproject.com/fr/1.9/topics/db/models/</a></p>
+</section>
+<section id="django-models-django-simple-exemple" class="center slide">
+<h2>Un exemple simple</h2><pre><code class="lang-python"><span class="hljs-keyword">from</span> django.db <span class="hljs-keyword">import</span> models
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Person</span><span class="hljs-params">(models.Model)</span>:</span>
+    first_name = models.CharField(max_length=<span class="hljs-number">30</span>)
+    last_name = models.CharField(max_length=<span class="hljs-number">30</span>)
+</code></pre>
+<p>Ce qui donne en SQL (Postgresql) :</p>
+<pre><code class="lang-python">CREATE TABLE myapp_person (
+    <span class="hljs-string">"id"</span> serial NOT NULL PRIMARY KEY,
+    <span class="hljs-string">"first_name"</span> varchar(<span class="hljs-number">30</span>) NOT NULL,
+    <span class="hljs-string">"last_name"</span> varchar(<span class="hljs-number">30</span>) NOT NULL
+);
+</code></pre>
+</section>
+<section id="django-models-django-type-champs" class="center slide">
+<h2>Les champs</h2><ul>
+<li>Instance de la classe <code>django.db.models</code></li>
+<li>Désigne un type de colonne de la base de données</li>
+<li>Permet de définir le type de champ HTML correspondant</li>
+<li>Permet de définir les contraintes minimales de validation des formulaires</li>
+</ul>
+<p><a href="https://docs.djangoproject.com/fr/1.9/ref/models/fields/#model-field-types">https://docs.djangoproject.com/fr/1.9/ref/models/fields/#model-field-types</a></p>
+</section>
+<section id="django-models-django-models-options" class="center slide">
+<h2>Les options</h2><ul>
+<li>En fonction du type de champ, chacun aura des options spécifiques (<code>max_length</code> par exemple)</li>
+<li>Mais il existe des options communes :<ul>
+<li>null (bdd)</li>
+<li>blank (form)</li>
+<li>choices (form)</li>
+<li>default (bdd/form)</li>
+<li>help_text (form)</li>
+<li>primary_key (bdd)</li>
+<li>unique (bdd)</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="django-models-django-models-options-2" class="slide">
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> django.db <span class="hljs-keyword">import</span> models
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Person</span><span class="hljs-params">(models.Model)</span>:</span>
+    SHIRT_SIZES = (
+        (<span class="hljs-string">'S'</span>, <span class="hljs-string">'Small'</span>),
+        (<span class="hljs-string">'M'</span>, <span class="hljs-string">'Medium'</span>),
+        (<span class="hljs-string">'L'</span>, <span class="hljs-string">'Large'</span>),
+    )
+    name = models.CharField(max_length=<span class="hljs-number">60</span>)
+    shirt_size = models.CharField(max_length=<span class="hljs-number">1</span>, choices=SHIRT_SIZES)
+
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Musician</span><span class="hljs-params">(models.Model)</span>:</span>
+    first_name = models.CharField(max_length=<span class="hljs-number">50</span>, blank=<span class="hljs-keyword">False</span>)
+    last_name = models.CharField(max_length=<span class="hljs-number">50</span>, default=<span class="hljs-string">'test'</span>)
+    instrument = models.CharField(max_length=<span class="hljs-number">100</span>)
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Album</span><span class="hljs-params">(models.Model)</span>:</span>
+    artist = models.ForeignKey(Musician, on_delete=models.CASCADE)
+    name = models.CharField(max_length=<span class="hljs-number">100</span>)
+    release_date = models.DateField()
+    num_stars = models.IntegerField()
+</code></pre>
+</section>
+<section id="django-models-primary-key" class="slide">
+<h2>Clé primaire</h2><p>Par défaut, Django ajoute un champ</p>
+<pre><code class="lang-python">id = models.AutoField(primary_key=<span class="hljs-keyword">True</span>)
+</code></pre>
+<p>Si vous spécifiez votre clé primaire, ce champ n&#39;est pas ajouté.</p>
+</section>
+<section id="django-models-relations" class="slide">
+<h2>Les relations</h2><p>C&#39;est la base de votre modèle de données</p>
+<p>Il existe plusieurs types de relations</p>
+<ul>
+<li>One to one</li>
+<li>One to Many</li>
+<li>Many to Many</li>
+</ul>
+</section>
+<section id="django-models-one-to-one" class="slide">
+<h2>One to one</h2><p><small><a href="https://docs.djangoproject.com/fr/1.9/topics/db/examples/one_to_one/">https://docs.djangoproject.com/fr/1.9/topics/db/examples/one_to_one/</a></small></p>
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> django.db <span class="hljs-keyword">import</span> models
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Place</span><span class="hljs-params">(models.Model)</span>:</span>
+    name = models.CharField(max_length=<span class="hljs-number">50</span>)
+    address = models.CharField(max_length=<span class="hljs-number">80</span>)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__str__</span><span class="hljs-params">(self)</span>:</span>              <span class="hljs-comment"># __unicode__ on Python 2</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"%s the place"</span> % self.name
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Restaurant</span><span class="hljs-params">(models.Model)</span>:</span>
+    place = models.OneToOneField(
+        Place,
+        on_delete=models.CASCADE,
+        primary_key=<span class="hljs-keyword">True</span>,
+    )
+    serves_hot_dogs = models.BooleanField(default=<span class="hljs-keyword">False</span>)
+    serves_pizza = models.BooleanField(default=<span class="hljs-keyword">False</span>)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__str__</span><span class="hljs-params">(self)</span>:</span>              <span class="hljs-comment"># __unicode__ on Python 2</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"%s the restaurant"</span> % self.place.name
+</code></pre>
+</section>
+<section id="django-models-one-to-many" class="slide">
+<h2>One to many (ou many to one)</h2><p><small><a href="https://docs.djangoproject.com/fr/1.9/topics/db/examples/many_to_one/">https://docs.djangoproject.com/fr/1.9/topics/db/examples/many_to_one/</a></small></p>
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> django.db <span class="hljs-keyword">import</span> models
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Reporter</span><span class="hljs-params">(models.Model)</span>:</span>
+    first_name = models.CharField(max_length=<span class="hljs-number">30</span>)
+    last_name = models.CharField(max_length=<span class="hljs-number">30</span>)
+    email = models.EmailField()
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__str__</span><span class="hljs-params">(self)</span>:</span>              <span class="hljs-comment"># __unicode__ on Python 2</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"%s %s"</span> % (self.first_name, self.last_name)
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Article</span><span class="hljs-params">(models.Model)</span>:</span>
+    headline = models.CharField(max_length=<span class="hljs-number">100</span>)
+    pub_date = models.DateField()
+    reporter = models.ForeignKey(Reporter, on_delete=models.CASCADE)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__str__</span><span class="hljs-params">(self)</span>:</span>              <span class="hljs-comment"># __unicode__ on Python 2</span>
+        <span class="hljs-keyword">return</span> self.headline
+
+    <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Meta</span>:</span>
+        ordering = (<span class="hljs-string">'headline'</span>,)
+</code></pre>
+</section>
+<section id="django-models-many-to-many" class="slide">
+<h2>Many to many</h2><p><small><a href="https://docs.djangoproject.com/fr/1.9/topics/db/examples/many_to_many/">https://docs.djangoproject.com/fr/1.9/topics/db/examples/many_to_many/</a></small></p>
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> django.db <span class="hljs-keyword">import</span> models
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Publication</span><span class="hljs-params">(models.Model)</span>:</span>
+    title = models.CharField(max_length=<span class="hljs-number">30</span>)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__str__</span><span class="hljs-params">(self)</span>:</span>              <span class="hljs-comment"># __unicode__ on Python 2</span>
+        <span class="hljs-keyword">return</span> self.title
+
+    <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Meta</span>:</span>
+        ordering = (<span class="hljs-string">'title'</span>,)
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Article</span><span class="hljs-params">(models.Model)</span>:</span>
+    headline = models.CharField(max_length=<span class="hljs-number">100</span>)
+    publications = models.ManyToManyField(Publication)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__str__</span><span class="hljs-params">(self)</span>:</span>              <span class="hljs-comment"># __unicode__ on Python 2</span>
+        <span class="hljs-keyword">return</span> self.headline
+
+    <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Meta</span>:</span>
+        ordering = (<span class="hljs-string">'headline'</span>,)
+</code></pre>
+</section>
+<section id="django-models-queries1" class="slide">
+<h2>Les requêtes</h2><p>RTFM</p>
+<p><a href="https://docs.djangoproject.com/fr/1.9/topics/db/queries/">https://docs.djangoproject.com/fr/1.9/topics/db/queries/</a></p>
+<p>Les requêtes « brutes » sont possibles, mais ne sont pas recommandées.</p>
+<p><small><a href="https://docs.djangoproject.com/fr/1.9/topics/db/sql/">https://docs.djangoproject.com/fr/1.9/topics/db/sql/</a></small></p>
+</section>
+</section>
+<section>
+<section id="django-views-django-views" class="center slide">
+<h1>Django</h1><h3>Les vues génériques</h3><p><a href="https://docs.djangoproject.com/fr/1.9/topics/class-based-views/generic-display/">https://docs.djangoproject.com/fr/1.9/topics/class-based-views/generic-display/</a></p>
+<h3>Les vues normales</h3><p><a href="https://docs.djangoproject.com/fr/1.9/topics/http/views/">https://docs.djangoproject.com/fr/1.9/topics/http/views/</a></p>
+</section>
+</section>
+<section>
+<section id="javascript-jquery-javascript-jquery" class="center slide">
+<h1>jQuery</h1><h3>(et javascript un peu)</h3><p><a href="https://learn.jquery.com/about-jquery/how-jquery-works/">https://learn.jquery.com/about-jquery/how-jquery-works/</a></p>
 </section>
 </section></div>
     </div>
