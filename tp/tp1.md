@@ -71,7 +71,7 @@ Maintenant que vous avez activé votre environnement virtuel (votre prompt **DOI
 
 Ça devrait vous afficher comme dernière ligne :
 
-    Successfully installed Django-1.10.6
+    Successfully installed Django-1.10.5
 
 Vérifiez que c'est bien le cas avec cette commande :
 
