@@ -71,7 +71,7 @@ Maintenant que vous avez activé votre environnement virtuel (votre prompt **DOI
 
 Ça devrait vous afficher comme dernière ligne :
 
-    Successfully installed Django-1.9.1
+    Successfully installed Django-1.10.6
 
 Vérifiez que c'est bien le cas avec cette commande :
 
@@ -101,5 +101,5 @@ Vous y accéderez donc de votre navigateur en tapant dans l'URL `http://mordor:1
 
 Voilà pour l'introduction, vous pouvez maintenant suivre le tutoriel sereinement, et éventuellement m'appeler quand il s'agit de la base de données.
 
-Le tutoriel est en 7 parties et il se situe [sur le site officiel de Django](https://docs.djangoproject.com/fr/1.9/intro/tutorial01/).
+Le tutoriel est en 7 parties et il se situe [sur le site officiel de Django](https://docs.djangoproject.com/fr/1.10/intro/tutorial01/).
 
